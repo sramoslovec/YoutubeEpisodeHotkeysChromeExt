@@ -8,7 +8,7 @@ function parseTimeCodes() {
             timecode = elem.innerText.match(/\d?\d?\:?\d?\d\:\d\d/)[0];
 
             if (!episodesList.includes(timecode)) {
-                console.log("YT_EP_TIME: " + timecode)
+                //console.log("YT_EP_TIME: " + timecode)
                 episodesList.push(timecode);
                 episodesListReversed.unshift(timecode);
             }
@@ -63,12 +63,15 @@ searchForTimecodes();
 
 function disableOnvideoEpTitle() {
     chrome.storage.local.get("ep_title_disabled", function(data) {
-        if (data.ep_title_disabled) {
-            $(".ytp-doubletap-ui").remove();
-            $(".ytp-doubletap-ui-legacy").remove();
+        if (data.ep_title_disabled === 'true') {
+            if (document.getElementsByClassName("ytp-doubletap-ui").length > 0) {
+                let elem = document.getElementsByClassName("ytp-doubletap-ui")[0].remove();
+            }
+            if (document.getElementsByClassName("ytp-doubletap-ui-legacy").length > 0) {
+                let elem = document.getElementsByClassName("ytp-doubletap-ui-legacy")[0].remove();
+            }
         }
     });
-    
 
     setTimeout(disableOnvideoEpTitle, 1000);
 }
@@ -80,9 +83,8 @@ window.onkeydown = function(e) {
     if (
         e.isComposing || 
         e.keyCode === 229 || 
-        $(e.target).is('input') ||
-        $(e.target).is('#contenteditable-root')
-
+        e.target.tagName === 'INPUT' ||
+        e.target.id === 'contenteditable-root'
     ) return;
 
     // previous episode

@@ -5,7 +5,7 @@
     "permissions": ["storage", "activeTab", "tabs"],
     "content_scripts": [ {
         "matches": ["https://www.youtube.com/*"],
-        "js": ["files/content_scripts/jquery-3.4.1.min.js", "files/content_scripts/script.js"],
+        "js": ["files/content_scripts/script.js"],
         "run_at": "document_idle",
         "all_frames": false
     } ],
